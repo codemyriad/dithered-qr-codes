@@ -98,6 +98,28 @@
 					`[data-x="${x}"][data-y="${y}"][data-u="${u}"][data-v="${v}"]`
 				);
 			}
+			for (y = 0; y < 99; ++y)
+				for (x = 0; x < 99; ++x) {
+					const cell = getCell(x, y)
+					if (!cell) {
+						// console.log("skipping", x, y)
+						continue
+					}
+					const target = targets[y][x];
+					// console.log(target, cell.className)
+					if (!cell.classList.contains("data")) continue;
+					const actual = cell.classList.contains("black") ? 0 : 255
+					cell.dataset.target = target
+					const error = actual - target;
+					bumpTarget(x+1, y,   error * 3/16)
+					bumpTarget(x-1, y,   error * 3/16)
+					bumpTarget(x,   y+1, error * 3/16)
+					bumpTarget(x  , y-1, error * 3/16)
+					bumpTarget(x+1, y+1, error * 1/16)
+					bumpTarget(x-1, y+1, error * 1/16)
+					bumpTarget(x+1, y+1, error * 1/16)
+					bumpTarget(x-1, y-1, error * 1/16)
+				}
 
 			for (y = 0; y < 99; ++y)
 				for (x = 0; x < 99; ++x) {
@@ -109,9 +131,8 @@
 					const target = targets[y][x];
 					// console.log(target, cell.className)
 					let actual;
-					if (cell.classList.contains("data"))
-						actual = cell.classList.contains("black") ? 0 : 255
-					else if (target > 128) {
+					if (cell.classList.contains("data")) continue;
+					if (target > 128) {
 						cell.classList.remove("black");
 						cell.classList.add("white");
 						actual = 255
@@ -122,10 +143,15 @@
 					}
 					cell.dataset.target = target
 					const error = actual - target;
-					bumpTarget(x+1, y,   error * 7/16)
-					bumpTarget(x-1, y+1, error * 3/16)
-					bumpTarget(x,   y+1, error * 5/16)
-					bumpTarget(x+1, y+1, error * 1/16)
+					const a = isFree(x+1, y)
+					const b = isFree(x-1, y+1)
+					const c = isFree(x, y+1)
+					const d = isFree(x+1, y+1)
+					const total = (a*7)+(b*3)+(c*5)+(d*1)
+					if(a) bumpTarget(x+1, y,   error * 7/total)
+					if(b) bumpTarget(x-1, y+1, error * 3/total)
+					if(c) bumpTarget(x,   y+1, error * 5/total)
+					if(d) bumpTarget(x+1, y+1, error * 1/total)
 				}
 
 			function bumpTarget(x, y, error) {
@@ -133,6 +159,11 @@
 				if (!row) return
 				if (x > row.length) return
 				row[x] -= error
+			}
+			function isFree(x, y) {
+				const cell = getCell(x, y)
+				if (!cell) return false
+				return !cell.classList.contains("data")
 			}
 		}
 	</script>
