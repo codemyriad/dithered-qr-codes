@@ -82,7 +82,10 @@
 			for (y = 0; y < 99; ++y) {
 				targets[y] = [];
 				for (x = 0; x < 99; ++x) {
-					targets[y][x] = Number(getPx(x, y))
+					targets[y][x] = (Number(getPx(x, y)) / 255) ** 2.2
+					targets[y][x] *= 1.1
+					targets[y][x] += 0.06
+					targets[y][x] = Math.min(Math.max(targets[y][x], 0), 0.94)
 				}
 			}
 
@@ -108,7 +111,7 @@
 					const target = targets[y][x];
 					// console.log(target, cell.className)
 					if (!cell.classList.contains("data")) continue;
-					const actual = cell.classList.contains("black") ? 0 : 255
+					const actual = cell.classList.contains("black") ? 0 : 1
 					cell.dataset.target = target
 					const error = actual - target;
 					bumpTarget(x+1, y,   error * 3/16)
@@ -132,10 +135,10 @@
 					// console.log(target, cell.className)
 					let actual;
 					if (cell.classList.contains("data")) continue;
-					if (target > 128) {
+					if (target > 0.5) {
 						cell.classList.remove("black");
 						cell.classList.add("white");
-						actual = 255
+						actual = 1
 					} else {
 						cell.classList.add("black");
 						cell.classList.remove("white");
