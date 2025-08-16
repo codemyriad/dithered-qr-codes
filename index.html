@@ -3,40 +3,153 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>qr</title>
-	<script type="text/javascript" src="node_modules/qrcode-generator/dist/qrcode.js"></script>
-	<link rel="stylesheet" type="text/css" href="styles.css">
+	<link rel="stylesheet" type="text/css" href="styles.scss">
+	<title>Dithered QR Code Generator</title>
+	<meta name="twitter:card" content="summary_large_image">
+	<meta name="twitter:site" content="@andrew_taylor">
+	<meta name="twitter:creator" content="@andrew_taylor">
+	<meta name="twitter:title" content="Dithered QR code generator">
+	<meta name="twitter:description" content="Make QR codes with photos in them">
+	<meta name="twitter:image" content="https://www.andrewt.net/dithered-qr-codes/card.png">
+	<meta property="og:title" content="Dithered QR code generator">
+	<meta property="og:type" content="website">
+	<meta property="og:url" content="https://www.andrewt.net/dithered-qr-codes">
+	<meta property="og:image" content="https://www.andrewt.net/dithered-qr-codes/card.png">
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=G-Q2BJ5624NT"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
+		gtag('config', 'G-Q2BJ5624NT');
+	</script>
 </head>
 <body>
-	<form>
-		<label>
-			<span>Upload an image</span>
-			<input type="file" id="upload">
-		</label>
-		<label>
-			<span>QR code text</span>
-			<input id="text" value="https://www.andrewt.net">
-		</label>
-		<label>
-			<span>Gamma</span>
-			<input id="gamma" value="2.2">
-		</label>
-		<label>
-			<span>Contrast</span>
-			<input id="contrast" value="1.0">
-		</label>
-		<label>
-			<span>Brightness</span>
-			<input id="brightness" value="0.0">
-		</label>
-		<label>
-			<span>Subpixel ratio</span>
-			<input id="ratio" type="number" value="3">
-		</label>
+	<h1>Dithered QR Codes</h1>
+	<nav>
+		<a href="wtf">How does this work?</a>
+		<a href="https://www.andrewt.net">The rest of my website</a>
+		<a href="https://codeberg.org/andrew-t/dithered-qr-codes">Source code</a>
+	</nav>
+	<form id="form">
+		<fieldset>
+			<legend>The basics</legend>
+			<label>
+				<span>Upload an image</span>
+				<input type="file" id="upload" aria-describedby="file-help">
+			</label>
+			<p id="file-help">This is the image that will be dithered into the QR code</p>
+			<label>
+				<span>QR code text</span>
+				<input id="text" type="text" value="https://www.andrewt.net" aria-describedby="text-help">
+			</label>
+			<p id="text-help">This is the text (usually a URL) that people will see when they scan the QR code</p>
+		</fieldset>
+		<fieldset>
+			<legend>Image settings</legend>
+			<label>
+				<span>Gamma</span>
+				<input id="gamma" value="2.2" type="number" min="0.01" max="10.0" step="0.01">
+			</label>
+			<label>
+				<span>Contrast</span>
+				<input id="contrast" value="1.0" type="number" min="0.01" max="10.0" step="0.01">
+			</label>
+			<label>
+				<span>Brightness</span>
+				<input id="brightness" value="0.0" type="number" min="-0.5" max="0.5" step="0.01">
+			</label>
+			<label>
+				<span>Minimum brightness</span>
+				<input id="min" value="0.05" type="number" min="0.0" max="1.0" step="0.01" aria-describedby="min-help">
+			</label>
+			<p id="min-help">No pixel will be allowed to be darker than this colour (before diffusion). This is useful if your image has large areas of black or white, to avoid too much error being built up.</p>
+			<label>
+				<span>Maximum brightness</span>
+				<input id="max" value="0.95" type="number" min="0.0" max="1.0" step="0.01" aria-describedby="max-help">
+			</label>
+			<p id="max-help">No pixel will be allowed to be brighter than this colour (before diffusion). This is useful if your image has large areas of black or white, to avoid too much error being built up.</p>
+		</fieldset>
+		<fieldset>
+			<legend>QR code settings</legend>
+			<label>
+				<span>Minimum size</span>
+				<input id="version" type="number" min="1" max="40" value="6" aria-describedby="version-help">
+				<p id="version-help">QR codes come in 40 sizes. Smaller ones can't contain as much text, but you can use a large one to store less text if you need more space for your picture. Size 6 is the largest one that doesn't add any alignment pattern blocks in the middle of the image.</p>
+			</label>
+			<label>
+				<span>Error correction</span>
+				<select id="ecc">
+					<option value="low">Low</option>
+					<option value="medium">Medium</option>
+					<option value="quartile">Quartile</option>
+					<option selected value="high">High</option>
+				</select>
+			</label>
+		</fieldset>
+		<fieldset>
+			<legend>QR code tweaks</legend>
+			<label>
+				<span>Invert</span>
+				<input id="invert" type="checkbox" aria-describedby="invert-help">
+			</label>
+			<p id="invert-help">Makes a QR code designed for a black background.</p>
+			<label>
+				<span>Rotation</span>
+				<select id="rotation" aria-describedby="rotation-help">
+					<option selected value="0">0°</option>
+					<option value="1">90°</option>
+					<option value="2">180°</option>
+					<option value="3">270°</option>
+				</select>
+			</label>
+			<p id="rotation-help">Rotates the QR code before adding the image, which can help move the required patterns to less obtrusive places.</p>
+			<label>
+				<span>Mask</span>
+				<select id="mask" aria-describedby="mask-help">
+					<option value="0">Mask 0</option>
+					<option value="1">Mask 1</option>
+					<option value="2">Mask 2</option>
+					<option value="3">Mask 3</option>
+					<option value="4">Mask 4</option>
+					<option value="5">Mask 5</option>
+					<option value="6">Mask 6</option>
+					<option value="7">Mask 7</option>
+				</select>
+			</label>
+			<p id="mask-help">There are eight different XOR masks that can be applied to QR codes. The choice is fairly arbitrary but picking the right one might happen to give you a nicer pattern of data pixels to work with.</p>
+		</fieldset>
+		<fieldset>
+			<legend>Diffusion settings</legend>
+			<label>
+				<span>Diffuse data points</span>
+				<input id="diffuse-data" checked type="checkbox" aria-describedby="diffuse-data-help">
+			</label>
+			<p id="diffuse-data-help">Uses error diffusion when adding the data squares — this makes the image worse and the only reason to turn this off is for demo purposes.</p>
+			<label>
+				<span>Diffuse free points</span>
+				<input id="diffuse-free" checked type="checkbox" aria-describedby="diffuse-free-help">
+			</label>
+			<p id="diffuse-free-help">Use error diffusion to dither the image rather than simply thresholding it.</p>
+			<label>
+				<span>Include image</span>
+				<input id="include-image" checked type="checkbox" aria-describedby="include-image-help">
+			</label>
+			<p id="diffuse-data-help">If disabled, just generate a regular QR code with no image in it.</p>
+			<label>
+				<span>Subpixel ratio</span>
+				<input id="scale" type="number" value="3" min="3" aria-describedby="scale-help">
+			</label>
+			<p id="scale-help">How many times to subdivide each pixel of the QR code. Eg, if this is 3 then each block of the QR code will be replaced by 9 (3²) pixels, the middle one of which contains the data. If it's an even number then the middle 4 pixels will contain the data.</p>
+			<label>
+				<span>Proportion of pixels to change</span>
+				<input id="fudge" value="0.0" type="number" min="0.0" max="1.0" step="0.01" aria-describedby="fudge-help">
+			</label>
+			<p id="fudge-help">If you have enough error correction in the image, you may be able to change a few data pixels without breaking the QR code. If this is set to 0.01 then we will change the worst 1% of data pixels. This can easily render the code unscannable but might help in some cases.</p>
+		</fieldset>
 	</form>
-	<img id="img" src="img2.png">
-	<canvas id="canvas" width="99" height="99"></canvas>
-	<div id="placeHolder"></div>
-	<script type="text/javascript" src="script.js"></script>
+	<div id="error" class="hidden"></div>
+	<canvas id="output" class="inverted hidden"></canvas>
+	<script src="src/browser.ts" type="module"></script>
 </body>
 </html>

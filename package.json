@@ -1,9 +1,15 @@
 {
   "name": "error-diffused-qr",
-  "version": "1.0.0",
-  "main": "index.js",
-  "license": "MIT",
+  "version": "2.0.0",
+  "scripts": {
+    "serve": "parcel index.html wtf/index.html",
+    "build": "rm -rf dist; rm -rf .parcel-cache; parcel build index.html wtf/index.html --public-url /dithered-qr-codes"
+  },
   "dependencies": {
-    "qrcode-generator": "^2.0.4"
+    "qr": "^0.5.0"
+  },
+  "devDependencies": {
+    "@parcel/transformer-sass": "2.15.4",
+    "parcel": "^2.15.4"
   }
 }

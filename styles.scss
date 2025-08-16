@@ -1,0 +1,128 @@
+body {
+	font-family: sans-serif;
+	margin: 1em 1em 10em 1em;
+	background: #fff;
+	color: black;
+	transition: background-color 300ms;
+
+	h1 {
+		color: black;
+		transition: color 300ms;
+	}
+
+	&.uninverted {
+		background: #000;
+
+		h1 {
+			color: white;
+		}
+
+		nav a { color: #4cf; }
+	}
+}
+
+form {
+	display: flex;
+	flex-direction: column;
+
+	fieldset {
+		display: flex;
+		flex-direction: column;
+		margin: 0.25em 0;
+		padding: 3em 1em 1em 1em;
+		background: #ddd;
+		border-radius: 0.5em;
+		border: none;
+		position: relative;
+		box-shadow: 0 0.1em 0.2em 0 #0004;
+
+		legend {
+			position: absolute;
+			top: 1em;
+			left: 1em;
+			font-weight: bold;
+		}
+
+		p {
+			margin: 0.25em 0 1em 0;
+			font-size: 0.9em;
+			color: #555;
+		}
+	}
+
+	label {
+		display: flex;
+		margin: 0.25em 0;
+		justify-content: stretch;
+		align-items: center;
+		flex-wrap: wrap;
+
+		span {
+			flex: 15em 0 1;
+
+			&::after {
+				content: ":";
+			}
+		}
+
+		input[type="number"], input[type="file"], #text, select {
+			width: auto;
+			flex: 1;
+			background: #fff;
+			border: 0.5px solid #bbb;
+			padding: 0.5em;
+			font-size: inherit;
+			border-radius: 0.5em;
+			box-shadow: 0 0.1em 0.2em 0 #0004 inset;
+		}
+	}
+}
+
+#error {
+	padding: 2em;
+	margin: 0.5em 0;
+	background: #fcc;
+	color: #400;
+	border-radius: 0.5em;
+	box-shadow: 0 0.1em 0.2em 0 #0004;
+}
+
+#output {
+	width: calc(100vmin - 8em);
+	image-rendering: pixelated;
+	margin: 4em 3em;
+}
+
+.hidden {
+	display: none !important;
+}
+
+nav {
+	margin: 1em;
+	display: flex;
+	gap: 5em;
+	justify-content: center;
+
+	a {
+		transition: color 300ms;
+		text-align: center;
+	}
+}
+
+body > h2 {
+	margin: 1em auto;
+	max-width: 30em;
+}
+
+body > p {
+	margin: 1em auto;
+	max-width: 40em;
+}
+
+img.qr {
+	margin: 3em auto;
+	display: block;
+	width: 25em;
+	max-width: 100%;
+	image-rendering: pixelated;
+}
