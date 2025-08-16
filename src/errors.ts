@@ -1,4 +1,4 @@
-const msg = document.getElementById('error');
+const msg = document.getElementById('error')!;
 
 export default function showError(error: Error) {
 	console.error(error);

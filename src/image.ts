@@ -1,16 +1,16 @@
 import { getGamma, getContrast, getBrightness, getMinBrightness, getMaxBrightness } from "./form.ts";
 
-const input = document.getElementById('upload');
+const input = document.getElementById('upload') as HTMLInputElement;
 
 export default function loadImage(l: number) {
-	if (input.files.length != 1) throw new Error("Upload a file");
+	if (input.files!.length != 1) throw new Error("Upload a file");
 	return new Promise<number[][]>((resolve, reject) => {
 		const img = new Image();
 		img.addEventListener("load", e => {
 			const canvas = document.createElement("canvas");
 			canvas.width = l;
 			canvas.height = l;
-			const ctx = canvas.getContext("2d");
+			const ctx = canvas.getContext("2d")!;
 			ctx.drawImage(img,
 				0, 0, img.width, img.height,
 				0, 0, l, l
@@ -39,7 +39,7 @@ export default function loadImage(l: number) {
 			resolve(output);
 		});
 		const reader = new FileReader();
-		reader.addEventListener('load', e => img.src = e.target.result);
-		reader.readAsDataURL(input.files[0]);
+		reader.addEventListener('load', e => img.src = e.target!.result as string);
+		reader.readAsDataURL(input.files![0]);
 	});
 }

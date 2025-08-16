@@ -1,63 +1,71 @@
+function input(id: string) {
+	return document.getElementById(id) as HTMLInputElement;
+}
+
+function select(id: string) {
+	return document.getElementById(id) as HTMLSelectElement;
+}
+
 export function getRotation() {
-	return parseInt(document.getElementById('rotation').value) || 0;
+	return parseInt(select('rotation').value) || 0;
 }
 
 export function getScale() {
-	return parseInt(document.getElementById('scale').value) || 3;
+	return parseInt(input('scale').value) || 3;
 }
 
 export function getText() {
-	return document.getElementById('text').value;
+	return input('text').value;
 }
 
-export function getEcc(): "low" | "medium" | "quartile" | "high" {
-	return document.getElementById('ecc').value;
+export function getEcc() {
+	return select('ecc').value as "low" | "medium" | "quartile" | "high";
 }
 
 export function getVersion() {
-	return parseInt(document.getElementById('version').value) || undefined;
+	return parseInt(input('version').value) || undefined;
 }
 
 export function getMask() {
-	return parseInt(document.getElementById('mask').value) || undefined;
+	return parseInt(select('mask').value) || undefined;
 }
 
 export function getInverted() {
-	return !document.getElementById("invert").checked;
+	return !input("invert").checked;
 }
 
 export function getDiffuseDataPoints() {
-	return document.getElementById("diffuse-data").checked;
+	return input("diffuse-data").checked;
 }
 export function getDiffuseFreePoints() {
-	return document.getElementById("diffuse-free").checked;
+	return input("diffuse-free").checked;
 }
 export function getIncludeImage() {
-	return document.getElementById("include-image").checked;
+	return input("include-image").checked;
 }
 
 export function getGamma() {
-	return parseFloat(document.getElementById("gamma").value) || 2.2;
+	return parseFloat(input("gamma").value) || 2.2;
 }
 
 export function getContrast() {
-	return parseFloat(document.getElementById("contrast").value) || 1.0;
+	return parseFloat(input("contrast").value) || 1.0;
 }
 
 export function getBrightness() {
-	return parseFloat(document.getElementById("brightness").value) || 0.0;
+	return parseFloat(input("brightness").value) || 0.0;
 }
 
 export function getMinBrightness() {
-	return parseFloat(document.getElementById("min").value) || 0.0;
+	return parseFloat(input("min").value) || 0.0;
 }
 
 export function getMaxBrightness() {
-	return parseFloat(document.getElementById("max").value) || 1.0;
+	return parseFloat(input("max").value) || 1.0;
 }
 
 export function getFudgePixels() {
-	return parseFloat(document.getElementById("fudge").value) || 0.0;
+	return parseFloat(input("fudge").value) || 0.0;
 }
 
 

@@ -9,7 +9,7 @@ import { diffuseDataPoints, diffuseFreePoints } from "./diffuse.ts";
 import fudgeQrData from "./fudge.ts";
 import { getDiffuseDataPoints, getDiffuseFreePoints, getIncludeImage, getInverted } from "./form.ts";
 
-const canvas = document.getElementById("output");
+const canvas = document.getElementById("output") as HTMLCanvasElement;
 
 async function update() {
 	clearError();
@@ -45,5 +45,5 @@ async function update() {
 	}
 }
 
-document.getElementById("form").addEventListener("input", update);
+document.getElementById("form")!.addEventListener("input", update);
 update();

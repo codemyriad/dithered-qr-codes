@@ -1,6 +1,6 @@
 import encodeQR from "qr";
 import showError from "./errors.ts";
-import { getRotation, getScale, getText, getEcc, getVersion, getMask, getScale, getInverted } from "./form.ts";
+import { getRotation, getScale, getText, getEcc, getVersion, getMask, getInverted } from "./form.ts";
 
 export default function makeQR() {
 	const text = getText();
@@ -17,7 +17,7 @@ export default function makeQR() {
 		try {
 			qr = encodeQR(text, 'raw', options);
 		} catch (e)	{
-			if (e.message == "Capacity overflow" && options.version < 40)
+			if (e.message == "Capacity overflow" && options.version! < 40)
 				qr = encodeQR(text, 'raw', { ...options, version: undefined });
 			else throw e;
 		}

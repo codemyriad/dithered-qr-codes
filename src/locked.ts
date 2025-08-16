@@ -53,7 +53,7 @@ export function isData(x: number, y: number) {
 
 function getBlocks(l: number) {
 	const version = qrVersion(l);
-	return dotPositions[version];
+	return dotPositions[version]!;
 }
 
 function qrVersion(l: number) {
