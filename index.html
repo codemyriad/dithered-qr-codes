@@ -5,211 +5,38 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>qr</title>
 	<script type="text/javascript" src="node_modules/qrcode-generator/dist/qrcode.js"></script>
-
+	<link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <body>
+	<form>
+		<label>
+			<span>Upload an image</span>
+			<input type="file" id="upload">
+		</label>
+		<label>
+			<span>QR code text</span>
+			<input id="text" value="https://www.andrewt.net">
+		</label>
+		<label>
+			<span>Gamma</span>
+			<input id="gamma" value="2.2">
+		</label>
+		<label>
+			<span>Contrast</span>
+			<input id="contrast" value="1.0">
+		</label>
+		<label>
+			<span>Brightness</span>
+			<input id="brightness" value="0.0">
+		</label>
+		<label>
+			<span>Subpixel ratio</span>
+			<input id="ratio" type="number" value="3">
+		</label>
+	</form>
 	<img id="img" src="img2.png">
 	<canvas id="canvas" width="99" height="99"></canvas>
 	<div id="placeHolder"></div>
-	<script type="text/javascript">
-		const container = document.getElementById('placeHolder');
-		const typeNumber = 4;
-		const errorCorrectionLevel = 'L';
-		const qr = qrcode(typeNumber, errorCorrectionLevel);
-		qr.addData('https://www.andrewt.net');
-		qr.make();
-		// document.getElementById('placeHolder').innerHTML = qr.createImgTag();
-		container.innerHTML = qr.createTableTag();
-		console.log(qr.createASCII());
-
-		let y = 0;
-		for (const row of container.querySelectorAll("tr")) {
-			let x = 0;
-			for (const cell of row.querySelectorAll("td")) {
-				const col = cell.style.backgroundColor == "rgb(0, 0, 0)"
-					? "black" : "white"
-				const locked = y == 6 || x == 6 || (x < 8 && y < 8) ||
-					(x > 24 && y < 8) || (y > 24 && x < 8) ||
-					(x > 23 && y > 23 && x < 29 && y < 29)
-				cell.classList.add(col);
-				if (locked)
-					cell.classList.add("locked");
-				cell.style = "";
-
-				if (!locked) {
-					const t2 = document.createElement("table")
-					t2.classList.add("inner")
-					for (let u = 0; u < 3; ++u) {
-						const row = document.createElement("tr")
-						t2.appendChild(row)
-						for (let v = 0; v < 3; ++v) {
-							const c2 = document.createElement("td")
-							row.appendChild(c2)
-							c2.classList.add(col)
-							if (u == 1 && v == 1) c2.classList.add("data")
-							c2.dataset.x = x
-							c2.dataset.y = y
-							c2.dataset.u = u
-							c2.dataset.v = v
-						}
-					}
-					cell.appendChild(t2)
-				}
-
-				++x;
-			}
-
-			++y;
-		}
-		// console.log(y)
-
-		img.addEventListener('load', go);
-
-		function go() {
-			const canvas = document.getElementById("canvas"),
-				ctx = canvas.getContext("2d");
-			ctx.drawImage(document.getElementById("img"),
-				0, 0, img.width, img.height,
-				0, 0, 99, 99
-			)
-			const imgData = ctx.getImageData(0, 0, 99, 99).data;
-			function getPx(x, y) {
-				return imgData[(x + y * 99) * 4];
-			}
-			// console.log(getPx(0, 0))
-
-			const targets = []
-			for (y = 0; y < 99; ++y) {
-				targets[y] = [];
-				for (x = 0; x < 99; ++x) {
-					targets[y][x] = (Number(getPx(x, y)) / 255) ** 2.2
-					targets[y][x] *= 1.1
-					targets[y][x] += 0.06
-					targets[y][x] = Math.min(Math.max(targets[y][x], 0), 0.94)
-				}
-			}
-
-			// console.log(targets)
-
-			function getCell(xi, yi) {
-				const x = ~~(xi/3)
-				const y = ~~(yi/3)
-				const u = xi%3
-				const v = yi%3
-				// console.log({x,y,u,v})
-				return document.querySelector(
-					`[data-x="${x}"][data-y="${y}"][data-u="${u}"][data-v="${v}"]`
-				);
-			}
-			for (y = 0; y < 99; ++y)
-				for (x = 0; x < 99; ++x) {
-					const cell = getCell(x, y)
-					if (!cell) {
-						// console.log("skipping", x, y)
-						continue
-					}
-					const target = targets[y][x];
-					// console.log(target, cell.className)
-					if (!cell.classList.contains("data")) continue;
-					const actual = cell.classList.contains("black") ? 0 : 1
-					cell.dataset.target = target
-					const error = actual - target;
-					bumpTarget(x+1, y,   error * 3/16)
-					bumpTarget(x-1, y,   error * 3/16)
-					bumpTarget(x,   y+1, error * 3/16)
-					bumpTarget(x  , y-1, error * 3/16)
-					bumpTarget(x+1, y+1, error * 1/16)
-					bumpTarget(x-1, y+1, error * 1/16)
-					bumpTarget(x+1, y+1, error * 1/16)
-					bumpTarget(x-1, y-1, error * 1/16)
-				}
-
-			for (y = 0; y < 99; ++y)
-				for (x = 0; x < 99; ++x) {
-					const cell = getCell(x, y)
-					if (!cell) {
-						// console.log("skipping", x, y)
-						continue
-					}
-					const target = targets[y][x];
-					// console.log(target, cell.className)
-					let actual;
-					if (cell.classList.contains("data")) continue;
-					if (target > 0.5) {
-						cell.classList.remove("black");
-						cell.classList.add("white");
-						actual = 1
-					} else {
-						cell.classList.add("black");
-						cell.classList.remove("white");
-						actual = 0
-					}
-					cell.dataset.target = target
-					const error = actual - target;
-					const a = isFree(x+1, y)
-					const b = isFree(x-1, y+1)
-					const c = isFree(x, y+1)
-					const d = isFree(x+1, y+1)
-					const total = (a*7)+(b*3)+(c*5)+(d*1)
-					if(a) bumpTarget(x+1, y,   error * 7/total)
-					if(b) bumpTarget(x-1, y+1, error * 3/total)
-					if(c) bumpTarget(x,   y+1, error * 5/total)
-					if(d) bumpTarget(x+1, y+1, error * 1/total)
-				}
-
-			function bumpTarget(x, y, error) {
-				const row = targets[y]
-				if (!row) return
-				if (x > row.length) return
-				row[x] -= error
-			}
-			function isFree(x, y) {
-				const cell = getCell(x, y)
-				if (!cell) return false
-				return !cell.classList.contains("data")
-			}
-		}
-	</script>
-	<style>
-		#placeHolder {
-			margin: 3em;
-		}
-
-		table, tr, td, tbody {
-			margin: 0;
-			border: 0;
-			padding: 0;
-			border-spacing: 0;
-		}
-
-		td {
-			width: 15px;
-			height: 15px;
-			background: white;
-
-			.inner & {
-				width: 5px;
-				height: 5px;
-			}
-
-			&.black {
-				background: black;
-			}
-
-			/*&.locked {
-				background: #fcc;
-				&.black {
-					background: #800;
-				}
-			}
-
-			&.data {
-				background: #ccf;
-				&.black {
-					background: #008;
-				}
-			}*/
-		}
-	</style>
+	<script type="text/javascript" src="script.js"></script>
 </body>
 </html>
