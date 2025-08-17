@@ -150,6 +150,12 @@
 	</form>
 	<div id="error" class="hidden"></div>
 	<canvas id="output" class="inverted hidden"></canvas>
+	<div class="warning">
+		<a id="download" href="#" download>Download QR code</a>
+		<p>
+			Remember to leave a <span id="margin-colour">white</span> margin around the QR code for it to scan. Be careful using these QR codes — they work by putting an image into the redundant parts of the QR code, but those redundant parts are there to make the code easier to scan in less than perfect conditions. Read the <a href="wtf">information page</a> for more.
+		</p>
+	</div>
 	<script src="src/browser.ts" type="module"></script>
 </body>
 </html>

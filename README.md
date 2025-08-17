@@ -22,7 +22,7 @@ you might need install yarn and/or node first. `npm install` ought to work too
 ## Start hosting
 
 ```sh
-python -m http.server
+yarn serve
 ```
 
-or whatever
+or `npm run serve` if you don't have `yarn` installed and don't want to install it

@@ -3,7 +3,7 @@ body {
 	margin: 1em 1em 10em 1em;
 	background: #fff;
 	color: black;
-	transition: background-color 300ms;
+	transition: background 300ms;
 
 	h1 {
 		color: black;
@@ -87,6 +87,23 @@ form {
 	box-shadow: 0 0.1em 0.2em 0 #0004;
 }
 
+.warning {
+	padding: 2em;
+	margin: 0.5em 0;
+	background: #ffc;
+	color: #440;
+	border-radius: 0.5em;
+	box-shadow: 0 0.1em 0.2em 0 #0004;
+
+	p:last-child {
+		margin-bottom: 0;
+	}
+}
+
+#output.hidden + .warning {
+	display: none;
+}
+
 #output {
 	width: calc(100vmin - 8em);
 	image-rendering: pixelated;
@@ -100,8 +117,9 @@ form {
 nav {
 	margin: 1em;
 	display: flex;
-	gap: 5em;
+	gap: 1.5em 5em;
 	justify-content: center;
+	flex-wrap: wrap;
 
 	a {
 		transition: color 300ms;

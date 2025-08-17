@@ -1,5 +1,6 @@
 import encodeQR from "qr";
 // import decodeQR from "qr/decode";
+
 import showError, { clearError } from "./errors.ts"
 import makeQR from "./qr.ts";
 import drawQR from "./draw.ts";
@@ -13,8 +14,14 @@ const canvas = document.getElementById("output") as HTMLCanvasElement;
 
 async function update() {
 	clearError();
-	if (getInverted()) document.body.classList.remove("uninverted");
-	else document.body.classList.add("uninverted");
+	if (getInverted()) {
+		document.body.classList.remove("uninverted");
+		document.getElementById("margin-colour").innerText = "white";
+	}
+	else {
+		document.body.classList.add("uninverted");
+		document.getElementById("margin-colour").innerText = "black";
+	}
 
 	try {
 		const qr = makeQR();
@@ -34,6 +41,7 @@ async function update() {
 				}
 
 		drawQR(qr);
+		document.getElementById("download").href = canvas.toDataURL('png');
 		canvas.classList.remove("hidden");
 
 		// const ctx = canvas.getContext('2d');
