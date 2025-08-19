@@ -1,3 +1,9 @@
+const advanced = document.getElementById("advanced");
+advanced.addEventListener("change", () => {
+	if (advanced.checked) document.body.classList.add("show-advanced");
+	else document.body.classList.remove("show-advanced");
+});
+
 function input(id: string) {
 	return document.getElementById(id) as HTMLInputElement;
 }
@@ -8,6 +14,10 @@ function select(id: string) {
 
 export function getRotation() {
 	return parseInt(select('rotation').value) || 0;
+}
+
+export function getReflection() {
+	return input("reflection").checked;
 }
 
 export function getScale() {
@@ -37,9 +47,11 @@ export function getInverted() {
 export function getDiffuseDataPoints() {
 	return input("diffuse-data").checked;
 }
+
 export function getDiffuseFreePoints() {
 	return input("diffuse-free").checked;
 }
+
 export function getIncludeImage() {
 	return input("include-image").checked;
 }

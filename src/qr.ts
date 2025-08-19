@@ -1,6 +1,6 @@
 import encodeQR from "qr";
 import showError from "./errors.ts";
-import { getRotation, getScale, getText, getEcc, getVersion, getMask, getInverted } from "./form.ts";
+import { getRotation, getReflection, getScale, getText, getEcc, getVersion, getMask, getInverted } from "./form.ts";
 
 export default function makeQR() {
 	const text = getText();
@@ -40,6 +40,10 @@ export default function makeQR() {
 		}
 		qr = newQr;
 	}
+
+	if (getReflection())
+		for (let y = l - 1; y >= 0; --y)
+			qr[y] = qr[y].reverse();
 
 	return qr;
 }

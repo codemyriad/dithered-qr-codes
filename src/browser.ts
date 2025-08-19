@@ -14,14 +14,10 @@ const canvas = document.getElementById("output") as HTMLCanvasElement;
 
 async function update() {
 	clearError();
-	if (getInverted()) {
-		document.body.classList.remove("uninverted");
-		document.getElementById("margin-colour").innerText = "white";
-	}
-	else {
-		document.body.classList.add("uninverted");
-		document.getElementById("margin-colour").innerText = "black";
-	}
+	canvas.classList.add("loading");
+
+	if (getInverted()) document.body.classList.remove("uninverted");
+	else document.body.classList.add("uninverted");
 
 	try {
 		const qr = makeQR();
@@ -41,6 +37,7 @@ async function update() {
 				}
 
 		drawQR(qr);
+		await expand();
 		document.getElementById("download").href = canvas.toDataURL('png');
 		canvas.classList.remove("hidden");
 
@@ -50,8 +47,30 @@ async function update() {
 	} catch (e) {
 		canvas.classList.add("hidden");
 		showError(e);
+	} finally {
+		canvas.classList.remove("loading");
 	}
 }
 
 document.getElementById("form")!.addEventListener("input", update);
 update();
+
+async function expand(amount = 25) {
+	const img = await canvasToImage(canvas);
+	canvas.width = img.width * amount + amount * 10;
+	canvas.height = img.height * amount + amount * 10;
+	const context = canvas.getContext("2d")!;
+	context.fillStyle = getInverted() ? 'white' : 'black';
+	context.fillRect(0, 0, canvas.width, canvas.height);
+	context.imageSmoothingEnabled = false;
+	context.drawImage(img, amount * 5, amount * 5, img.width * amount, img.height * amount);
+}
+
+function canvasToImage(canvas: HTMLCanvasElement) {
+	return new Promise<Image>((resolve, reject) => {
+		const img = new Image();
+		img.addEventListener("load", () => resolve(img));
+		img.addEventListener("error", reject);
+		img.src = canvas.toDataURL("png");
+	});
+}

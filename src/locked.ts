@@ -1,4 +1,4 @@
-import { getRotation, getScale } from "./form.ts";
+import { getRotation, getReflection, getScale } from "./form.ts";
 
 export default function isLocked(l: number, x: number, y: number) {
 	l /= getScale();
@@ -6,6 +6,8 @@ export default function isLocked(l: number, x: number, y: number) {
 	y = ~~(y / getScale());
 	// ob
 	if (x < 0 || y < 0 || x >= l || y >= l) return true;
+	// reflect
+	if (getReflection()) x = l - x - 1;
 	// rotate
 	const rotation = getRotation();
 	for (let i = 0; i < rotation; ++i) [x, y] = [y, l - x - 1];

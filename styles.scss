@@ -1,9 +1,13 @@
 body {
 	font-family: sans-serif;
-	margin: 1em 1em 10em 1em;
+	margin: 1em;
 	background: #fff;
 	color: black;
 	transition: background 300ms;
+
+	&.wtf {
+		margin-bottom: 10em;
+	}
 
 	h1 {
 		color: black;
@@ -78,6 +82,10 @@ form {
 	}
 }
 
+body:not(.show-advanced) .advanced {
+	display: none;
+}
+
 #error {
 	padding: 2em;
 	margin: 0.5em 0;
@@ -105,9 +113,13 @@ form {
 }
 
 #output {
-	width: calc(100vmin - 8em);
+	width: calc(100vmin - 2em);
 	image-rendering: pixelated;
-	margin: 4em 3em;
+	margin: 1em 0;
+
+	&.loading {
+		visibility: hidden;
+	}
 }
 
 .hidden {
