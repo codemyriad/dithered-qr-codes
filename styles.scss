@@ -5,6 +5,10 @@ body {
 	color: black;
 	transition: background 300ms;
 
+	&.hide-free {
+		background: #fcf;
+	}
+
 	&.wtf {
 		margin-bottom: 10em;
 	}
@@ -16,6 +20,10 @@ body {
 
 	&.uninverted {
 		background: #000;
+
+		&.hide-free {
+			background: #505;
+		}
 
 		h1 {
 			color: white;

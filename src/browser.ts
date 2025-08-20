@@ -8,7 +8,7 @@ import isLocked, { isData } from "./locked.ts";
 import loadImage from "./image.ts";
 import { diffuseDataPoints, diffuseFreePoints } from "./diffuse.ts";
 import fudgeQrData from "./fudge.ts";
-import { getDiffuseDataPoints, getDiffuseFreePoints, getIncludeImage, getInverted } from "./form.ts";
+import { getDiffuseDataPoints, getDiffuseFreePoints, getIncludeImage, getInverted, getHideFreePoints } from "./form.ts";
 
 const canvas = document.getElementById("output") as HTMLCanvasElement;
 
@@ -18,6 +18,8 @@ async function update() {
 
 	if (getInverted()) document.body.classList.remove("uninverted");
 	else document.body.classList.add("uninverted");
+	if (getHideFreePoints()) document.body.classList.add("hide-free");
+	else document.body.classList.remove("hide-free");
 
 	try {
 		const qr = makeQR();
@@ -62,6 +64,8 @@ async function expand(amount = 25) {
 	const context = canvas.getContext("2d")!;
 	context.fillStyle = getInverted() ? 'white' : 'black';
 	context.fillRect(0, 0, canvas.width, canvas.height);
+	if (getHideFreePoints())
+		context.clearRect(amount * 5, amount * 5, img.width * amount, img.height * amount);
 	context.imageSmoothingEnabled = false;
 	context.drawImage(img, amount * 5, amount * 5, img.width * amount, img.height * amount);
 }

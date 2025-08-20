@@ -1,8 +1,10 @@
 const advanced = document.getElementById("advanced");
-advanced.addEventListener("change", () => {
+advanced.addEventListener("change", update);
+function update() {
 	if (advanced.checked) document.body.classList.add("show-advanced");
 	else document.body.classList.remove("show-advanced");
-});
+}
+update();
 
 function input(id: string) {
 	return document.getElementById(id) as HTMLInputElement;
@@ -54,6 +56,10 @@ export function getDiffuseFreePoints() {
 
 export function getIncludeImage() {
 	return input("include-image").checked;
+}
+
+export function getHideFreePoints() {
+	return input("hide-free").checked;
 }
 
 export function getGamma() {
