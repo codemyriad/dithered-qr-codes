@@ -110,7 +110,7 @@
 			<p id="rotation-help">Rotates the QR code before adding the image, which can help move the required patterns to less obtrusive places.</p>
 			<label class="advanced">
 				<span>Mirror QR code</span>
-				<input id="reflection" checked type="checkbox" aria-describedby="reflection-help">
+				<input id="reflection" type="checkbox" aria-describedby="reflection-help">
 			</label>
 			<p id="reflection-help" class="advanced">QR codes still work if you mirror them so who knows, this might put the data modules in a better arrangement for your image.</p>
 			<label class="advanced">
@@ -127,6 +127,18 @@
 				</select>
 			</label>
 			<p id="mask-help" class="advanced">There are eight different XOR masks that can be applied to QR codes. The choice is fairly arbitrary but picking the right one might happen to give you a nicer pattern of data pixels to work with.</p>
+			<label class="advanced">
+				<span>Do not shrink positioning blocks</span>
+				<input id="lock-positioning" type="checkbox" checked>
+			</label>
+			<label class="advanced">
+				<span>Do not shrink timing patterns</span>
+				<input id="lock-timing" type="checkbox" checked>
+			</label>
+			<label class="advanced">
+				<span>Do not shrink alignment markers</span>
+				<input id="lock-alignment" type="checkbox" checked>
+			</label>
 		</fieldset>
 		<fieldset>
 			<legend>Diffusion settings</legend>

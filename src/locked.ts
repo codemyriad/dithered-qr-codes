@@ -1,4 +1,4 @@
-import { getRotation, getReflection, getScale } from "./form.ts";
+import { getRotation, getReflection, getScale, getLockPositioningBlocks, getLockTimingLines, getLockAlignmentPatterns } from "./form.ts";
 
 export default function isLocked(l: number, x: number, y: number) {
 	l /= getScale();
@@ -12,11 +12,11 @@ export default function isLocked(l: number, x: number, y: number) {
 	const rotation = getRotation();
 	for (let i = 0; i < rotation; ++i) [x, y] = [y, l - x - 1];
 	// corner blocks
-	if (x < 7 && y < 7) return true;
-	if (x < 7 && y > l - 8) return true;
-	if (x > l - 8 && y < 7) return true;
+	if (x < 7 && y < 7) return getLockPositioningBlocks();
+	if (x < 7 && y > l - 8) return getLockPositioningBlocks();
+	if (x > l - 8 && y < 7) return getLockPositioningBlocks();
 	// timing lines
-	if (x == 6 || y == 6) return true;
+	if (x == 6 || y == 6) return getLockTimingLines();
 	// do we have extra blocks
 	const blocks = getBlocks(l);
 	if (!blocks.length) return false;
@@ -29,7 +29,7 @@ export default function isLocked(l: number, x: number, y: number) {
 	if (xBlock == 0 && yBlock == 0) return false;
 	if (xBlock == 0 && yBlock == blocks.length - 1) return false;
 	if (xBlock == blocks.length - 1 && yBlock == 0) return false;
-	return true;
+	return getLockAlignmentPatterns();
 }
 
 function inBlock(u: number, blocks: number[]) {

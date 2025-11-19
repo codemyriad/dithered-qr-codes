@@ -15,7 +15,7 @@ export default function drawQR(data: boolean[][]) {
 		for (let x = 0; x < l; ++x) {
 			if (hideFreePoints && !isLocked(l, x, y) && !isData(x, y)) {
 				i += 3;
-				imgData[i++] = 0;
+				imgData.data[i++] = 0;
 				continue;
 			}
 			for (let c = 0; c < 3; ++c)

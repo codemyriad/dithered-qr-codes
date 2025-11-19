@@ -1,4 +1,4 @@
-const advanced = document.getElementById("advanced");
+const advanced = document.getElementById("advanced") as HTMLInputElement;
 advanced.addEventListener("change", update);
 function update() {
 	if (advanced.checked) document.body.classList.add("show-advanced");
@@ -60,6 +60,16 @@ export function getIncludeImage() {
 
 export function getHideFreePoints() {
 	return input("hide-free").checked;
+}
+
+export function getLockPositioningBlocks() {
+	return input("lock-positioning").checked;
+}
+export function getLockTimingLines() {
+	return input("lock-timing").checked;
+}
+export function getLockAlignmentPatterns() {
+	return input("lock-alignment").checked;
 }
 
 export function getGamma() {
