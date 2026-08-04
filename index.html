@@ -25,13 +25,16 @@
 	</script>
 </head>
 <body class="tool">
-	<h1>Dithered QR Codes</h1>
-	<nav>
-		<a href="wtf">How does this work?</a>
-		<a href="https://www.andrewt.net">The rest of my website</a>
-		<a href="https://codeberg.org/andrew-t/dithered-qr-codes">Source code</a>
-	</nav>
-	<form id="form">
+	<header class="site-header">
+		<h1>Dithered QR Codes</h1>
+		<nav>
+			<a href="wtf">How does this work?</a>
+			<a href="https://www.andrewt.net">The rest of my website</a>
+			<a href="https://codeberg.org/andrew-t/dithered-qr-codes">Source code</a>
+		</nav>
+	</header>
+	<main class="workspace">
+		<form id="form" class="settings-panel">
 		<fieldset>
 			<legend>The basics</legend>
 			<label>
@@ -173,15 +176,20 @@
 			</label>
 			<p id="fudge-help" class="advanced">If you have enough error correction in the image, you may be able to change a few data pixels without breaking the QR code. If this is set to 0.01 then we will change the worst 1% of data pixels. This can easily render the code unscannable but might help in some cases.</p>
 		</fieldset>
-	</form>
-	<div id="error" class="hidden"></div>
-	<canvas id="output" class="inverted hidden"></canvas>
-	<div class="warning">
-		<a id="download" href="#" download>Download QR code</a>
-		<p>
-			Remember to keep the margin around the QR code for it to scan. Be careful using these QR codes — they work by putting an image into the redundant parts of the QR code, but those redundant parts are there to make the code easier to scan in less than perfect conditions. Read the <a href="wtf">information page</a> for more.
-		</p>
-	</div>
+		</form>
+		<section class="preview-panel" aria-label="Generated QR code preview">
+			<div class="preview-content">
+				<div id="error" class="hidden"></div>
+				<canvas id="output" class="inverted hidden"></canvas>
+				<div class="warning">
+					<a id="download" href="#" download>Download QR code</a>
+					<p>
+						Remember to keep the margin around the QR code for it to scan. Be careful using these QR codes — they work by putting an image into the redundant parts of the QR code, but those redundant parts are there to make the code easier to scan in less than perfect conditions. Read the <a href="wtf">information page</a> for more.
+					</p>
+				</div>
+			</div>
+		</section>
+	</main>
 	<script src="src/browser.ts" type="module"></script>
 </body>
 </html>
