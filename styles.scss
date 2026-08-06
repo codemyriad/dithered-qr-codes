@@ -69,7 +69,7 @@ body.tool {
 	display: grid;
 	grid-template-columns: minmax(20em, 34em) minmax(0, 1fr);
 	gap: 1em;
-	padding: 1em;
+	padding: 0;
 	box-sizing: border-box;
 }
 
@@ -78,7 +78,7 @@ body.tool {
 	min-height: 0;
 	overflow-y: auto;
 	scrollbar-gutter: stable;
-	padding-right: 0.5em;
+	padding: 1em 0.5em 1em 1em;
 }
 
 .preview-panel {
@@ -88,6 +88,7 @@ body.tool {
 	display: flex;
 	align-items: flex-start;
 	justify-content: center;
+	padding: 1em 1em 1em 0;
 }
 
 .preview-content {
@@ -148,6 +149,10 @@ form {
 			font-size: inherit;
 			border-radius: 0.5em;
 			box-shadow: 0 0.1em 0.2em 0 #0004 inset;
+		}
+
+		input[type="file"] {
+			max-width: 10em;
 		}
 	}
 }
@@ -262,11 +267,12 @@ img.qr {
 
 	.settings-panel {
 		overflow: visible;
-		padding-right: 0;
+		padding: 1em;
 	}
 
 	.preview-panel {
 		overflow: visible;
+		padding: 1em;
 	}
 
 	.preview-content {
