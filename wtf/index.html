@@ -56,7 +56,7 @@
 	</p>
 	<img src="floyd-steinberg.png" class="qr" alt="A Floyd-Steinberg dithered picture of Michaelangelo's David">
 	<p>
-		In this method, you start in the top left and threshold the pixel normally — if it's more than 50% brightness, you make it white, and otherwise you make it black. Say it was 70% brightness — we're going to make it white, which is 100% brightness, which means we've added 30% of a pixel too much brightness. To counteract that, we're going to "diffuse" that error to other pixels — all the nearby pixels that we haven't thresholded yet are made a few percend darker, to a total of 30% of a pixel. When we come to threshold those pixels, we'll take that into account. The idea is that once we've thresholded the entire picture, every part of the image will be, on average, closer to the correct brightness than more regular dithering. The irregular patterns are also a bit less distracting.
+		In this method, you start in the top left and threshold the pixel normally — if it's more than 50% brightness, you make it white, and otherwise you make it black. Say it was 70% brightness — we're going to make it white, which is 100% brightness, which means we've added 30% of a pixel too much brightness. To counteract that, we're going to "diffuse" that error to other pixels — all the nearby pixels that we haven't thresholded yet are made a few percent darker, to a total of 30% of a pixel. When we come to threshold those pixels, we'll take that into account. The idea is that once we've thresholded the entire picture, every part of the image will be, on average, closer to the correct brightness than more regular dithering. The irregular patterns are also a bit less distracting.
 	</p>
 
 	<h2>QR codes with error-diffusion dithering</h2>
