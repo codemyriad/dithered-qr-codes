@@ -34,13 +34,13 @@
 	<img src="qr.png" class="qr" alt="A dithered photo of me, with standard QR code alignment patterns superimposed on it">
 	<h2>QR codes: the basics</h2>
 	<p>
-		A QR code is really just a way of encoding a few bytes of data in a way that can be easily read from a photo by a smartphone or similar device. They're designed to be very robust to bad focus, bad printing, funny angles, and missing areas. Exactly how they work isn't terribly important, but for the purposes of this page, a QR code is a grid of squares that divide into two parts — the function patterns (which are the bold shapes in the above example) and the data modules (everything else). The function modules are mostly used to let the scanner find the QR code easily, so they have to be very clear and distinct. The data modules are where the actual data is stored, along with some extra header data etc, and since those are only read after the scanner has used the function modules to work out exactly where the QR code is, they can be modified a bit more. This is often used by brands to create QR codes that look a bit distinctive, and while this kind of modification makes them a bit less robust when scanning, but you can generally get away with a fair bit before the codes become unscannable.
+		A QR code is really just a way of encoding a few bytes of data in a way that can be easily read from a photo by a smartphone or similar device. They're designed to be very robust to bad focus, bad printing, funny angles, and missing areas. Exactly how they work isn't terribly important, but for the purposes of this page, a QR code is a grid of squares that divide into two parts — the function patterns (which are the bold shapes in the above example) and the data modules (everything else). The function modules are mostly used to let the scanner find the QR code easily, so they have to be very clear and distinct. The data modules are where the actual data is stored, along with some extra header data etc, and since those are only read after the scanner has used the function modules to work out exactly where the QR code is, they can be modified a bit more. This is often used by brands to create QR codes that look a bit distinctive, and while this kind of modification makes them a bit less robust when scanning, you can generally get away with a fair bit before the codes become unscannable.
 	</p>
 
 	<h2>Putting pictures in QR codes</h2>
 	<img src="divbyzero.png" class="qr" alt="A dithered photo of Dave Richeson, with standard QR code alignment patterns superimposed on it, and a smattering of small black and white pixels on top">
 	<p>
-		This is <a href="https://mathstodon.xyz/@divbyzero/115021806369821862">a QR code I saw on Mastodon</a>. One of the modifications you can do with the data modules is to shrink them — the scanner will look where the finder patterns say the centres of the pixels should be, and so as long as the code isn't distorted when you try to scan it. That means the rest of the space is yours to play with. Dave divides each pixel into a three-by-three grid, and uses the middle one to store the data, and the others for a photo. The result is a low-res, one-bit photo with some salt-and-pepper noise on it.
+		This is <a href="https://mathstodon.xyz/@divbyzero/115021806369821862">a QR code I saw on Mastodon</a>. One of the modifications you can do with the data modules is to shrink them — the scanner will look where the finder patterns say the centres of the pixels should be, and so as long as the code isn't distorted when you try to scan it, the rest of the space is yours to play with. Dave divides each pixel into a three-by-three grid, and uses the middle one to store the data, and the others for a photo. The result is a low-res, one-bit photo with some salt-and-pepper noise on it.
 	</p>
 
 	<h2>Dithering</h2>
@@ -49,7 +49,7 @@
 		Obviously when we crush an image into a low colour depth, we don't normally just threshold it — that is, make the dark pixels black and the light pixels white. We normally use a kind of chequerboard effect to create midtones as well. <a href="https://en.wikipedia.org/wiki/Dither">A Bayer filter</a> can be used to apply this idea across a whole image without having to sacrifice too much fine detail.
 	</p>
 	<img src="bayer.png" class="qr" alt="A Bayer dithered picture of Michaelangelo's David">
-	
+
 	<h2>Error diffusion</h2>
 	<p>
 		An attempt to improve on this method was Floyd-Steinberg dithering.
