@@ -26,3 +26,7 @@ yarn serve
 ```
 
 or `npm run serve` if you don't have `yarn` installed and don't want to install it
+
+## License
+
+GNU Affero General Public License version 3 only (AGPL-3.0-only). See [LICENSE](LICENSE).
