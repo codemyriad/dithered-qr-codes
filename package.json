@@ -3,14 +3,19 @@
   "version": "2.0.0",
   "scripts": {
     "serve": "parcel index.html wtf/index.html",
-    "build": "rm -rf dist; rm -rf .parcel-cache; parcel build index.html wtf/index.html --public-url /dithered-qr-codes"
+    "build": "rm -rf dist .parcel-cache && parcel build index.html wtf/index.html --public-url / && cp LICENSE THIRD_PARTY_LICENSES.txt dist/",
+    "test": "node --test test/*.test.ts",
+    "deploy": "yarn build && rsync -rv dist/ pgs.sh:/qr-dithering/"
   },
   "dependencies": {
-    "qr": "^0.5.0"
+    "qrcode": "^1.5.4"
   },
   "devDependencies": {
     "@parcel/transformer-sass": "2.15.4",
+    "@types/qrcode": "^1.5.6",
+    "jsqr": "^1.4.0",
     "parcel": "^2.15.4"
   },
-  "license": "AGPL-3.0-only"
+  "license": "AGPL-3.0-only",
+  "type": "module"
 }

@@ -1,11 +1,11 @@
-import encodeQR from "qr";
+import { encode } from "./encoding.ts";
 import showError from "./errors.ts";
-import { getRotation, getReflection, getScale, getText, getEcc, getVersion, getMask, getInverted } from "./form.ts";
+import { getRotation, getReflection, getScale, getText, getEcc, getVersion, getMask, getInverted, getOptimizeUrl } from "./form.ts";
 
 export default function makeQR() {
 	const text = getText();
 	const options = {
-		border: 0,
+		optimizeUrl: getOptimizeUrl(),
 		ecc: getEcc(),
 		version: getVersion(),
 		mask: getMask(),
@@ -14,14 +14,12 @@ export default function makeQR() {
 
 	let qr: boolean[][];
 	try {
-		try {
-			qr = encodeQR(text, 'raw', options);
-		} catch (e)	{
-			if (e.message == "Capacity overflow" && options.version! < 40)
-				qr = encodeQR(text, 'raw', { ...options, version: undefined });
-			else throw e;
-		}
+		const result = encode(text, options);
+		qr = result.matrix;
+		document.getElementById("encoding-info")!.textContent =
+			`Version ${result.version} (${result.size} × ${result.size} modules). Encoded text: ${result.payload}`;
 	} catch (e) {
+		document.getElementById("encoding-info")!.textContent = "";
 		showError(e);
 		throw e;
 	}

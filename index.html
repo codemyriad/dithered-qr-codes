@@ -30,7 +30,7 @@
 		<nav>
 			<a href="wtf">How does this work?</a>
 			<a href="https://www.andrewt.net">The rest of my website</a>
-			<a href="https://codeberg.org/andrew-t/dithered-qr-codes">Source code</a>
+			<a href="https://github.com/codemyriad/dithered-qr-codes">Source code (AGPL-3.0)</a>
 		</nav>
 	</header>
 	<main class="workspace">
@@ -47,6 +47,12 @@
 				<input id="text" type="text" value="https://www.andrewt.net" aria-describedby="text-help">
 			</label>
 			<p id="text-help">This is the text (usually a URL) that people will see when they scan the QR code</p>
+			<label>
+				<span>Optimize URLs</span>
+				<input id="optimize-url" type="checkbox" checked aria-describedby="optimize-url-help">
+			</label>
+			<p id="optimize-url-help">Uppercase the HTTP(S) scheme and hostname to save QR space. Paths, query strings and fragments keep their exact spelling. Turn off to preserve all text exactly.</p>
+			<p id="encoding-info" role="status" style="overflow-wrap: anywhere"></p>
 			<label>
 				<span>Show advanced controls</span>
 				<input id="advanced" type="checkbox">
@@ -119,6 +125,7 @@
 			<label class="advanced">
 				<span>Mask</span>
 				<select id="mask" aria-describedby="mask-help">
+					<option selected value="">Automatic</option>
 					<option value="0">Mask 0</option>
 					<option value="1">Mask 1</option>
 					<option value="2">Mask 2</option>

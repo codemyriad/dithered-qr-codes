@@ -30,6 +30,10 @@ export function getText() {
 	return input('text').value;
 }
 
+export function getOptimizeUrl() {
+	return input('optimize-url').checked;
+}
+
 export function getEcc() {
 	return select('ecc').value as "low" | "medium" | "quartile" | "high";
 }
@@ -39,7 +43,8 @@ export function getVersion() {
 }
 
 export function getMask() {
-	return parseInt(select('mask').value) || undefined;
+	const mask = parseInt(select('mask').value);
+	return Number.isNaN(mask) ? undefined : mask;
 }
 
 export function getInverted() {

@@ -1,6 +1,3 @@
-import encodeQR from "qr";
-// import decodeQR from "qr/decode";
-
 import showError, { clearError } from "./errors.ts"
 import makeQR from "./qr.ts";
 import drawQR from "./draw.ts";
